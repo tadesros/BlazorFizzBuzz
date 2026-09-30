@@ -1,0 +1,97 @@
+﻿@page "/fizzbuzz"
+
+<div class="container-xxl my-5">
+    <h3>Solve the FizzBuzz Challenge</h3>
+    <p>Enter Your Values, press the button, and see how FizzBuzz logic works.</p>
+     <EditForm Model="fizzBuzz" OnValidSubmit="GenerateFizzBuzzResults">
+         <DataAnnotationsValidator />
+         <div class="border border-secondary-subtle rounded p-4">
+             <div class="row row-cols-1 row-cols-md-3 align-items-start">
+
+                 <div class="col mt-2">
+                     <label for="fizzValue" class="form-label"></label>
+                     <InputNumber id="fizzValue" class="form-control" @bind-Value="fizzBuzz.FizzValue"
+                     aria-describedby="fizzHelp" aria-label="Fizz Value" placeholder="Enter a Fizz Value"/>
+                     <div id="fizzHelp" class="form-text text-muted">
+                         Replaces multiples of this number with  "Fizz"
+                     </div>
+                     <ValidationMessage For="@(()=>fizzBuzz.FizzValue)" />
+                 </div>
+
+                <div class="col mt-2">
+                    <label for="buzzValue" class="form-label"></label>
+                    <InputNumber id="buzzValue" class="form-control" @bind-Value="fizzBuzz.BuzzValue"
+                                 aria-describedby="buzzHelp" aria-label="Buzz Value" placeholder="Enter a Buzz Value" />
+                    <div id="buzzHelp" class="form-text text-muted">
+                        Replaces multiples of this number with  "Buzz"
+                    </div>
+                    <ValidationMessage For="@(() => fizzBuzz.BuzzValue)" />
+                </div>
+
+
+                <div class="col mt-2">
+                    <label for="stopValue" class="form-label"></label>
+                    <InputNumber id="stopValue" class="form-control" @bind-Value="fizzBuzz.StopValue"
+                                 aria-describedby="stopHelp" aria-label="Stop Value" placeholder="Enter a Stop Value" />
+                    <div id="stopHelp" class="form-text text-muted">
+                        The limit of numbers to evaluate.
+                    </div>
+                    <ValidationMessage For="@(() => fizzBuzz.StopValue)" />
+                </div>
+
+             </div>
+
+             <div class="row">
+                 <div class="col text-end mt-2">
+                     <button type="submit" class="btn btn-primary" aria-label="Generate FizzBuzz Results">Generate </button>
+                 </div>
+             </div>
+
+         </div>
+
+
+
+
+     </EditForm>
+</div>
+
+@code {
+    //Create an instance of fizzBuzz (lowercase type is CamelCase) 
+    private FizzBuzzModel fizzBuzz = new();
+
+    private List<String> fizzBuzzResults = new();
+
+    private void GenerateFizzBuzzResults()
+    {
+        //Empty Results each time
+        fizzBuzzResults.Clear();
+
+        //Loop through numbers from 1 to StopValue
+        for (int i = 1; i <= fizzBuzz.StopValue; i++)
+        {
+
+            //Mod division to check if the number is divisible by FizzValue and BuzzValue
+            if (i % fizzBuzz.FizzValue == 0 && i % fizzBuzz.BuzzValue == 0)
+            {
+                fizzBuzzResults.Add("FizzBuzz");
+            }
+            else if (i % fizzBuzz.FizzValue == 0)
+            {
+                fizzBuzzResults.Add("Fizz");
+            }
+            else if (i % fizzBuzz.BuzzValue == 0)
+            {
+                fizzBuzzResults.Add("Buzz");
+            }
+            else
+            {
+                //Add the number to every
+                fizzBuzzResults.Add(i.ToString());
+            }
+                     
+
+        }
+    }
+
+
+}
